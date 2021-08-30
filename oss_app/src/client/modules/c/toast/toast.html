@@ -1,0 +1,22 @@
+<template>
+    <div class="notification-container slds-notify slds-notify_alert slds-text-align_left" role="alert">
+        <span class="slds-assistive-text">{title}</span>
+        <lightning-icon icon-name="utility:warning" variant="inverse" size="small"></lightning-icon>
+            <div class="slds-p-horizontal_medium slds-notify__content">
+                <h2 class="slds-text-heading_small">{title}</h2>
+                <ul class="slds-list_dotted">
+                    <li>{message}</li>
+                </ul>
+                <ul if:true={messages.length} class="slds-list_dotted">
+                    <template for:each={messages} for:item="error">
+                        <li key={error} class="slds-p-vertical_xx-small">
+                            <p>{error}</p>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        <div class="slds-notify__close">
+            <lightning-button-icon name="close" icon-name="utility:close" variant="border-inverse" onclick={handleClose}></lightning-button-icon>
+        </div>
+    </div>
+</template>

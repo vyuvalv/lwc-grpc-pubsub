@@ -1,0 +1,43 @@
+<template>
+    <div class="slds-grid slds-grid_vertical">
+    <lightning-spinner if:true={loading} variant="brand" alternative-text="Loading......" size="large"></lightning-spinner>
+    <lightning-card class="slds-size_1-of-1" title="gRPC with CometD vs. EmpApi Example" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <p>Use the buttons below to subscribe and unsubscribe to a streaming channel!</p>
+            <div class="slds-m-vertical_small slds-box slds-grid slds-grid_align-spread">
+                <!-- Channel Name -->
+                <lightning-input disabled={isOnline} class="slds-align-content-center" label="Channel Name" value={channelName} onchange={handleChannelName}></lightning-input>
+                <!-- User Name -->
+                <lightning-input disabled={isOnline} class="slds-p-left_small" label="User Alias" value={userAlias} onchange={handleAliasChange}></lightning-input>
+            </div>
+            <!-- Pub / Sub -->
+            <div class="">
+               <div class="chat-panel">
+                    <!-- Message Publish -->
+                    <div if:true={isOnline} class="submit-panel slds-grid slds-box slds-theme_shade">
+                        <!-- Message -->
+                        <lightning-input disabled={isOffline} variant="label-hidden" required 
+                                            class="chat-message slds-align-content-center" 
+                                            name="messageInput" value={messageValue} 
+                                            label="Message" 
+                                            onchange={handleMessageChange}
+                                            onkeypress={handleEnterPress}></lightning-input>
+                        <!-- Submit -->
+                        <lightning-button disabled={isOffline} class="slds-p-left_small" label="Publish" variant="success" onclick={sendMessage}></lightning-button>                     
+                    </div>
+                    <!-- Chat Logger -->
+                    <div class="messages-panel">
+                        <c-chat-board user={currentUser} posts={posts} start-time={channelStartTime} end-time={channelEndTime} typing={typing} active={isOnline}></c-chat-board>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="success" label="Subscribe" title="Subscribe" onclick={handleSubscribe} disabled={isOnline} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="destructive" label="Unsubscribe" title="Unsubscribe"
+                onclick={handleUnsubscribe} disabled={isOffline}
+                class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </lightning-card>
+</div> 
+</template>

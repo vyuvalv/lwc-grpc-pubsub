@@ -1,0 +1,40 @@
+<template>
+    <div class="app-container slds-grid slds-grid_vertical slds-theme_default">
+    <!-- Messages -->
+    <c-toast if:true={showAlert} errors={errors} alert={alert} onclose={hideAlert}></c-toast>
+    <!-- HEADER -->
+    <div class="app-header slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-theme_info slds-p-around_small">
+        <div class="slds-grid slds-grid_vertical-align-center app-header-title">
+            <img src={logoImage} width="50px"></img>
+            <p class="slds-text-heading_large">LWC with gRPC</p> 
+        </div>
+        <div class="slds-grid slds-grid_align-center">
+          <!-- RUN GRAPH QL -->
+          <lightning-button-icon icon-name="utility:refresh" variant="brand" onclick={handleRefresh}></lightning-button-icon>
+        </div>
+     </div>
+    <!-- CONTENT -->
+    <div class="app-content slds-scrollable_y">
+        <!-- TABS -->
+        <lightning-tabset variant="scoped" active-tab-value={pathName}>
+            <!-- INTRO TO GRAPHQL -->
+            <lightning-tab icon-name="utility:fallback" label="Simple" value="home" onactive={handleActiveTab}>
+                <c-pubsub-app onerror={handleNotifications}></c-pubsub-app>
+            </lightning-tab>
+            <lightning-tab icon-name="utility:description" label="DEBUG" value="debug" onactive={handleActiveTab}>
+                <!-- DEBUG Response Preview --> 
+                 <lightning-textarea label="Response" value={logger} class="slds-size_1-of-1" disabled></lightning-textarea>
+            </lightning-tab>
+        </lightning-tabset>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="app-footer slds-box_small slds-grid slds-grid_align-center slds-action-overflow_touch__footer">
+        <!-- DOCS -->
+        <a href="https://lwc.dev" class="slds-button slds-button_brand" target="_blank">Learn LWC</a>
+        <a href="https://www.grpc.io/docs/languages/node/" class="slds-button slds-button_neutral slds-theme_inverse" target="_blank">Learn gRPC</a>
+        <a href="https://jsforce.github.io/document/" class="slds-button slds-button_neutral slds-theme_warning" target="_blank">Learn JSForce</a>
+    </div>
+
+    </div>
+</template>

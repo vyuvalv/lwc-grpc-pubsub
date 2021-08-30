@@ -1,0 +1,7 @@
+:host {
+    --sds-c-alert-color-background:hsl(224, 46%, 53%);
+}
+
+.notification-container{
+    justify-content: flex-start;
+}

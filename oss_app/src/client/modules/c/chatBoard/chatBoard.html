@@ -1,0 +1,41 @@
+<template>
+    <!-- Get All Logs -->
+    <div  if:true={isOnline} class="slds-align_absolute-center slds-p-around_medium">
+        <lightning-button disabled={typing} label="Get History" icon-name="utility:refresh" variant="brand" title="Refresh" onclick={handleRefresh} ></lightning-button>
+    </div>
+    <!-- Start Chat -->
+    <div if:true={startMessage} class="slds-chat-bookend">
+    <span class="slds-icon_container slds-icon-utility-chat slds-chat-icon">
+        <lightning-icon size="small" icon-name="utility:chat" alternative-text="online" title="online"></lightning-icon>
+    </span>  
+        <p> {startMessage}</p>
+    </div>
+    <!-- Typing animation -->
+    <div if:true={typing} class="slds-align_absolute-center">
+      <div class="slds-chat-message__text_sneak-peek">
+        <span class="slds-icon-typing slds-is-animated" title="Customer is typing">
+          <span class="slds-icon-typing__dot"></span>
+          <span class="slds-icon-typing__dot"></span>
+          <span class="slds-icon-typing__dot"></span>
+          <span class="slds-assistive-text">Typing...</span>
+        </span>
+      </div>
+    </div>
+    <!-- POSTS -->
+    <div if:true={posts.length} class="messages-board slds-scrollable_y">
+      <section role="log" class="slds-chat">
+            <ul class="slds-chat-list">
+              <template for:each={posts} for:item="post">
+                  <c-chat-message key={post.uuid} post={post} user-name={userName}></c-chat-message>
+              </template>
+            </ul>
+      </section>
+    </div>
+    <!-- End Chat -->
+    <div if:true={endMessage} class="slds-chat-bookend slds-chat-bookend_stop">
+        <span class="slds-icon_container slds-icon-utility-end_chat slds-chat-icon">
+              <lightning-icon size="small" icon-name="utility:end_chat" alternative-text="end_chat" title="end_chat"></lightning-icon>
+            </span>
+        <p> {endMessage}</p>
+    </div>
+</template>

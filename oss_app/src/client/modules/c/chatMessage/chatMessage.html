@@ -1,0 +1,19 @@
+<template>
+    <li class={chatListClass}>
+    <div class="slds-chat-message">
+        <span if:true={isInbound} aria-hidden="true" class="slds-avatar slds-avatar_circle slds-chat-avatar">
+            <abbr class="slds-avatar__initials slds-avatar__initials_inverse" title={userName}>{from}</abbr>
+        </span>
+        <div class="slds-chat-message__body">
+            <div class={chatMessageClass}>
+                <span>{message}</span>
+            </div>
+            <!-- metadata -->
+            <div class="slds-chat-message__meta" aria-label={origin}>{origin}</div>
+        </div>
+        <span if:true={isOutbound} aria-hidden="true" class="slds-m-left_small slds-avatar slds-avatar_circle slds-chat-avatar">
+            <abbr class="slds-avatar__initials slds-avatar__initials_inverse slds-theme_alt-inverse" title={userName}>{from}</abbr>
+        </span>
+      </div>
+    </li>
+</template>

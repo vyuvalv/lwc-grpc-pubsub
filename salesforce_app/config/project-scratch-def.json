@@ -1,0 +1,14 @@
+{
+  "orgName": "StreamingApiChannel",
+  "description":  "Streaming Api Demo",
+  "edition": "Developer",
+  "country": "GB",
+  "language": "en_US",
+  "hasSampleData": true,
+  "features": ["Communities","AuthorApex","API","DebugApex"],
+  "settings": {
+    "lightningExperienceSettings": {
+        "enableS1DesktopEnabled": true
+    }
+  }
+}

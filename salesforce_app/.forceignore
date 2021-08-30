@@ -1,0 +1,5 @@
+**/jsconfig.json
+
+**/.eslintrc.json
+
+force-app/main/default/appMenus

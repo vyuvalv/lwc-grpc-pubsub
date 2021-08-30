@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+service SalesforceService {
+    rpc getRecords (QueryRequest) returns (QueryResponse) {}
+    rpc getAllEvents (Empty) returns (stream SubscribeResponse) {}
+    rpc getStreamRecords (QueryRequest) returns (stream Record) {}
+    // Pub/Sub API
+    rpc ConnectOrg (ConnectRequest) returns (ConnectedOrg) {}
+    rpc Subscribe (SubscribeRequest) returns (stream SubscribeResponse) {}
+    rpc UnSubscribe (Empty) returns (SubscribeResponse) {}
+    rpc PublishEvent (PublishRequest) returns (PublishResponse) {}
+}
+
+message Empty {}
+
+message ConnectRequest {
+    string username = 1;
+    string password = 2;
+    string securityToken = 3;
+    string instanceUrl = 4;
+    string accessToken = 5;
+}
+
+message ConnectedOrg {
+    string accessToken = 1;
+    string id = 2; // UserId
+    string organizationId = 3;
+    string url = 4;
+    User currentUser = 5;
+}
+
+message User {
+    string Id = 1;
+    string Name = 2;
+    string Username = 3;
+    string LastName = 4;
+    string FirstName = 5;
+    bool IsActive = 6;
+}
+
+// QUERY RECORDS
+message QueryRequest {
+    int32 offsetIndex = 1;
+    int32 pageSize = 2;
+    string objectApiName = 3;
+    repeated string fields = 4;
+}
+message Record {
+    string Id = 1;
+    string Name = 2;
+}
+message QueryResponse {
+    repeated Record records = 1;
+    int32 totalSize = 2;
+    bool done = 3;
+    repeated Error errors = 4;
+}
+
+// SUBSCRIPTION
+message SubscribeRequest {
+    string topicName = 1;
+}
+
+// EVENT LISTENER
+message SubscribeResponse {
+    string schema = 1;
+    EventPayload payload = 2;
+    repeated EventFields fields = 3;
+    // Received events for subscription for client consumption
+    EventDetail event = 4;
+    ConnectedOrg org = 5;
+    string uuid = 6;
+}
+
+// PUBLISH / CREATE
+message PublishRequest {
+    string objectApiName = 1;
+    repeated EventFields fields = 2;
+    Record record = 3;
+    repeated Record records = 4;
+}
+
+message PublishResponse { 
+    string id = 1;
+    bool success = 2;
+    repeated Record records = 3;
+    repeated EventFields fields = 4;
+    repeated Error errors = 5;
+}
+
+
+message EventPayload {
+    string LastModifiedDate = 1;
+    string CreatedById = 2;
+    string CreatedDate = 3;
+    // CUSTOM FIELDS
+    string Source__c = 4;
+    string Message__c = 5;
+    string UUID__c = 6;
+    // HEADERS
+    ChangeEventHeader ChangeEventHeader = 7;
+}
+
+message ChangeEventHeader {
+    bytes commitNumber = 1;
+    string commitUser = 2;
+    int32 sequenceNumber = 3;
+    string entityName = 4;
+    
+    enum ChangeType {
+        UPDATE = 1;
+        INSERT = 2;
+        DELETE = 3;
+    }
+    
+    ChangeType changeType= 5;
+    repeated string changedFields = 6;
+    string changeOrigin = 7;
+    string transactionKey =8;
+      
+    int64 commitTimestamp = 9;
+    repeated string recordIds = 10;
+}
+
+message EventDetail {
+    bytes replayId = 1;
+}
+
+message EventFields {
+    string key = 1;
+    string value = 2;
+    bytes bytesValue = 3;
+}
+
+message Error {
+    string statusCode = 1;
+    string message = 2;
+    repeated EventFields fields = 3;
+ }
+

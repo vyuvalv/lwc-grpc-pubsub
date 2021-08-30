@@ -1,0 +1,19 @@
+:host {
+    --sds-c-textarea-sizing-min-height:10rem;
+}
+
+.app-container {
+    width: 100%;
+    height: var( --container-height);
+}
+.app-content {
+    height: 100%;
+}
+
+.large-preview-panel {
+    font-family: monospace;
+    font-size:.75rem;
+    --sds-c-textarea-sizing-min-height:50vh;
+    --sds-c-textarea-color-background:black;
+    --sds-c-textarea-text-color:white;
+}
