@@ -25,8 +25,8 @@
 ## LWC OSS App Using gRPC Server
 - Go into the `oss_app` folder - [LWC OSS App Instructions](oss_app/README.md)
 - Start with `npm install` - from the main `oss_app` directory.
-    * Breakdown of the dependencies below
-    * `npm i ` - npm install :
+    * Breakdown of the dependencies installed below :
+    * run `npm i` - `npm install` 
         * `grpc` - main library for grpc
         * `@grpc/proto-loader` - handle protobuffers
         * `express-sse` - for server sent events push to client app
