@@ -18,7 +18,8 @@
 ## Salesforce App
 - Go into the `salesforce_app` folder - [Salesforce App Instructions](salesforce_app/README.md)
 - Deploy the code into your new scratch org from this folder. 
-- You will have a Lightning App Page called PubSub Demo or you can simply drag and drop the component on any page layout.
+- You will have a Lightning App Page called `PubSub_Demo` or you can simply drag and drop the component `PubSub Chat Messenger` on any page layout.
+- A Platform Event Object named `PubSubMessage__e` will need to be deployed.
 - Issue a Personal Security Token or setup a Connected App on your org to allow login.
 - Once you got it working on Salesforce - Copy the Credentials to the OSS app setup.
 

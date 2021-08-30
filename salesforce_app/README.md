@@ -8,7 +8,14 @@
     ## Deploy the code into your org. 
     - `sfdx force:source:push -u <<TargetOrgAlias>>`
 
-- You will have a Lightning App Page that will display our main component `pubsubApp` but this could be dragged and dropped to any other lightning page layout inside your org.
+- You will have a Lightning App Page called `PubSub_Demo` or you can simply drag and drop the component `PubSub Chat Messenger` on any page layout.
+- A Platform Event Object named `PubSubMessage__e` will need to be deployed.
+- Fields :
+    - Message__c
+    - Source__c
+    - UUID__c
+
+    This will be Setup so we can seperate between inbound to outbound messages
 
 - Generate a Security Token or setup a Connected App to allow login in to this scratch org.
 
@@ -23,6 +30,9 @@
     - Got into `User settings > My Personal Information > Reset Security Token` to get a new security token, this will be sent by email.
 
     - Copy All those User details into your `.env` file
+
+
+
 
 _____________________
 
