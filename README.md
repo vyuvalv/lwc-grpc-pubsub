@@ -1,12 +1,12 @@
-# Using LWC OSS With gRPC Server - Chat Demo App
+# Using LWC OSS With gRPC - Chat Demo App
 
 - https://lwc.dev - Lightning Web Components 
-- https://www.grpc.io/docs/languages/node// - Official gRPC Node JS Guide
+- [Official gRPC Node JS Guide](https://www.grpc.io/docs/languages/node)
 
 ## This Project 
 - This project include Subscription to the Streaming API in Salesforce in the form of a messanger chat.
-- Connection to Salesforce Api via [JSForce](https://jsforce.github.io/)
-- It's quick demo for building apps *in and out* of Salesforce using Lightning Web Components (LWC) and gRPC Server to allow Streaming and Real-time server push updates. 
+- Connection to Salesforce Api via - [JSForce](https://jsforce.github.io/)
+- It's quick demo for building apps **in** and **out** of Salesforce using Lightning Web Components (LWC) and gRPC Server to allow Streaming and Real-time server push updates. 
 
 ## 2 LWC apps talking to each other using Platform Events:   
 ![demo](./assets/pubsubAppDemo.gif)
