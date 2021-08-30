@@ -38,15 +38,12 @@ ehthumbs.db
 $RECYCLE.BIN/
 
 # Local environment variables
-.env
 oss/.env
 .vscode
 .gitignore
 oss_app/src/client/modules/utils/formUtils.js
-.gitignore
 salesforce_app/force-app/main/default/profiles
 oss_app/src/client/resources/assets/*
 oss_app/dist
 oss_app/package-lock.json
-.gitignore
-.gitignore
+
