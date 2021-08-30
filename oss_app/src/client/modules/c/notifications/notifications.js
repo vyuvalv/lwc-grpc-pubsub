@@ -6,7 +6,7 @@ const DEFAULT = {
         message:'details',
         type:'error'
 }
-export default class Toast extends LightningElement {
+export default class Notifications extends LightningElement {
 
     @api errors;
 

@@ -24,7 +24,15 @@
 
 ## LWC OSS App Using gRPC Server
 - Go into the `oss_app` folder - [LWC OSS App Instructions](oss_app/README.md)
-- Start with `npm install` - from the main app directory.
+- Start with `npm install` - from the main `oss_app` directory.
+    * Breakdown of the dependencies below
+    * `npm i ` - npm install :
+        * `grpc` - main library for grpc
+        * `@grpc/proto-loader` - handle protobuffers
+        * `express-sse` - for server sent events push to client app
+        * `jsforce` - Connection to Salesforce
+        * `dotenv`- Storing parameters used for the connection to Salesforce Connected App option
+
 - Setup your Org Credentials inside a new `.env` file on `oss_app` directory as mentioned inside the README file.
 - Use the node scripts `npm run build` OR `npm run build:development` to build the `dist` folder for this app and to include SLDS inside your project. 
 - Run `npm run watch` or `yarn watch` - to view the app.

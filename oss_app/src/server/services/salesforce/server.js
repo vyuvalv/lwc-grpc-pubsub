@@ -16,10 +16,10 @@ const protoPackage = grpc.loadPackageDefinition(packageDefinition);
 const jsforce = require('jsforce');
 require('dotenv').config();
 
-// CONNECTED APP
-// const { LOGIN_URL, INSTANCE_URL, CLIENT_KEY, CLIENT_SECRET, REDIRECT_URL } = process.env;
 // ORG CREDENTIALS
 const { LOGIN_URL, INSTANCE_URL, USERNAME, PASSWORD, SECURITY_TOKEN } = process.env;
+// CONNECTED APP
+// const { LOGIN_URL, INSTANCE_URL, CLIENT_KEY, CLIENT_SECRET, REDIRECT_URL } = process.env;
 
 // Setup for Connected App in Salesforce
 let connection = new jsforce.Connection({
@@ -33,12 +33,6 @@ let connection = new jsforce.Connection({
     //     redirectUri: REDIRECT_URL
     // }
 });
-
-// REUSE SESSION
-// connection = new jsforce.Connection({
-//     sessionId : '<session id to logout>',
-//     serverUrl : '<your Salesforce Server url to logout>'
-// });
 
 // log events in memory
 let posts = [];
@@ -57,7 +51,8 @@ function isIncluded(post) {
 async function ConnectOrg(call, callback) {
     // const { username, password, securityToken, instanceUrl } = call.request;
     console.log(`Trying to log in as : ${USERNAME}`);
-
+    // Reset posts
+    posts = [];
     // Direct login to salesforce
     await connection.login(USERNAME, PASSWORD + SECURITY_TOKEN, (err, userInfo) => {
         if (err) {
@@ -103,9 +98,6 @@ async function Subscribe(call) {
     }
     // SUBSCRIBE TO CHANNEL
     try {
-        // Reset posts
-        //  posts = [];
-
         await connection.streaming.topic(call.request.topicName).subscribe((response) => {
             console.log('grpc subscription response :', JSON.stringify(response));
 
@@ -210,7 +202,7 @@ async function PublishEvent(call, callback) {
     }
 }
 
-// Fetch Stored events
+// Fetch events Stored on gRPC Server
 async function getAllEvents(call, callback) {
     if (posts.length) {
         // Filter to unique posts
@@ -224,95 +216,12 @@ async function getAllEvents(call, callback) {
     call.end();
 }
 
-// QUERY SYNCH TO GET RECORDS
-async function getRecords(call, callback) {
-    if (!connection.accessToken) {
-        return callback({
-            code: grpc.status.UNAUTHENTICATED,
-            message: `No Connection to JSForce`
-        });
-    }
-    try {
-        const fields = ['Id', 'Name'];
-        const objectName = 'LogItem__c';
-        const { offsetIndex, pageSize } = call.request;
-        const soql = `SELECT ${fields.join(',')} FROM ${objectName} LIMIT ${pageSize}`;
-        // GET RECORD
-        await connection.query(soql, function(err, res) {
-            if (err) {
-                console.log(`Something went wrong in getRecords method => ${err.name}:${err.message}`, JSON.stringify(err.stack));
-                callback({
-                    code: grpc.status.INVALID_ARGUMENT,
-                    message: `Something went wrong in getRecords method => ${err.name}:${err.message}`,
-                });
-            }
-            // Return Response 
-            callback(null, res);
-        });
-    } catch (error) {
-        console.error(`Something went wrong.. ${error.name}:${error.message}`);
-        callback({
-            code: grpc.status.NOT_FOUND,
-            message: `Something went wrong.. ${error.name}:${error.message}`
-        });
-    }
-}
-
-// Get stream records request 
-async function getStreamRecords(call, callback) {
-    if (!connection.accessToken) {
-        call.write({
-            code: grpc.status.UNAUTHENTICATED,
-            message: `No Connection to JSForce`
-        });
-        call.end();
-    }
-    try {
-        // SET SOQL STATEMENT
-        const fields = ['Id', 'Name'];
-        const objectName = 'LogItem__c';
-        const { offsetIndex, pageSize } = call.request;
-        const soql = `SELECT ${fields.join(',')} FROM ${objectName} LIMIT ${pageSize}`;
-        // GET RECORD
-        const query = connection.query(soql)
-            .on("record", (record) => {
-                console.log("sf sent  : " + JSON.stringify(record));
-                call.write(record);
-            })
-            .on("end", () => {
-                console.log("total in database : " + query.totalSize);
-                console.log("total fetched : " + query.totalFetched);
-                call.end();
-            })
-            .on("error", (err) => {
-                console.error(`getStreamRecords - Something went wrong.. ${err.name}:${err.message}`);
-                call.write({
-                    code: grpc.status.NOT_FOUND,
-                    message: `Something went wrong.. ${err.name}:${err.message}`
-                });
-            })
-            .run({ autoFetch: true, maxFetch: 4000 });
-
-    } catch (error) {
-        console.error(`Caught an error on getStreamRecords..`, JSON.stringify(error));
-        call.write({
-            code: grpc.status.NOT_FOUND,
-            message: `Something went wrong.. ${error.name}:${error.message}`
-        });
-        call.end();
-    }
-}
-
-
-
-// Main Run method
+// Connected Services running
 function serverSF(port = '30047') {
     const server = new grpc.Server();
     const GRPC_PORT = `127.0.0.1:${port}`;
     server.addService(protoPackage.SalesforceService.service, {
         "ConnectOrg": ConnectOrg,
-        "getRecords": getRecords,
-        "getStreamRecords": getStreamRecords,
         "getAllEvents": getAllEvents,
         "PublishEvent": PublishEvent,
         "Subscribe": Subscribe,

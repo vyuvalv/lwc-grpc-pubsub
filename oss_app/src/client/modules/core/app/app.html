@@ -1,16 +1,12 @@
 <template>
     <div class="app-container slds-grid slds-grid_vertical slds-theme_default">
     <!-- Messages -->
-    <c-toast if:true={showAlert} errors={errors} alert={alert} onclose={hideAlert}></c-toast>
+    <c-notifications if:true={showAlert} errors={errors} alert={alert} onclose={hideAlert}></c-notifications>
     <!-- HEADER -->
     <div class="app-header slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-theme_info slds-p-around_small">
         <div class="slds-grid slds-grid_vertical-align-center app-header-title">
             <img src={logoImage} width="50px"></img>
             <p class="slds-text-heading_large">LWC with gRPC</p> 
-        </div>
-        <div class="slds-grid slds-grid_align-center">
-          <!-- RUN GRAPH QL -->
-          <lightning-button-icon icon-name="utility:refresh" variant="brand" onclick={handleRefresh}></lightning-button-icon>
         </div>
      </div>
     <!-- CONTENT -->
@@ -18,7 +14,7 @@
         <!-- TABS -->
         <lightning-tabset variant="scoped" active-tab-value={pathName}>
             <!-- INTRO TO GRAPHQL -->
-            <lightning-tab icon-name="utility:fallback" label="Simple" value="home" onactive={handleActiveTab}>
+            <lightning-tab icon-name="utility:fallback" label="DEMO" value="home" onactive={handleActiveTab}>
                 <c-pubsub-app onerror={handleNotifications}></c-pubsub-app>
             </lightning-tab>
             <lightning-tab icon-name="utility:description" label="DEBUG" value="debug" onactive={handleActiveTab}>

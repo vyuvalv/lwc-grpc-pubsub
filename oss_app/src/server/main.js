@@ -132,23 +132,6 @@ app.get("/api/v1/events/all", (req, res) => {
     });
 });
 
-// DML
-app.get("/api/v1/logs/:method", (req, res) => {
-    if (req.params.method === 'GET') {
-        let items = [];
-        const call = client.getStreamRecords({ pageSize: 100 });
-        call.on("data", record => {
-            console.log("received record from server " + JSON.stringify(record));
-            items.push(record);
-        });
-        call.on("end", () => {
-            // res.end();
-            res.send({ data: items });
-            console.log("server done!");
-        });
-    }
-});
-
 
 app.use(express.static(DIST_DIR));
 // Use SPA and ignore any url path locations and always serves index
