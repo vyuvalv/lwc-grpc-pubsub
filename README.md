@@ -41,4 +41,4 @@
 
 ## Why gRPC ?
 Follow here :
-https://medium.com/@vyuvalv/using-grpc-server-to-subscribe-to-salesforce-events-6fa0206dca0
+https://vyuvalv.medium.com/streaming-salesforce-platform-events-using-grpc-and-nodejs-6fa0206dca0
