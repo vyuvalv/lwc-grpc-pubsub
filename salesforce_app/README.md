@@ -32,8 +32,42 @@
     - Copy All those User details into your `.env` file
 
 
+# Code Snippets Per Request :) 
 
+- Publish Event
+```js
+{
+    objectApiName: this.objectApiName,
+    fields: [{
+            key: 'Source__c',
+            value: this.userAlias
+        },
+        {
+            key: 'Message__c',
+            value: this.messageValue
+        },
+        {
+            key: 'UUID__c',
+            value: createUUID()
+        }
+    ]
+}
+```
 
+- Subscribe and Parse Response 
+```js
+    let items = [];
+    // Construct posts from payload
+    const { schema, fields, payload, event } = record;
+    // Format Platform Event fields
+    let record = fields && fields.length ? fields.reduce((obj, field) => { obj[field.key] = field.value; return obj; }, {}) : null;
+    items.push({
+        from: record.Source__c,
+        message: record.Message__c,
+        date: payload.CreatedDate,
+        uuid: record.UUID__c
+    });
+```
 _____________________
 
 
