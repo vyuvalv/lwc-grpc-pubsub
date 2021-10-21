@@ -36,15 +36,18 @@
 
 - Publish Event
 ```js
-{
-    objectApiName: this.objectApiName,
+const userAlias = 'SF'; // SF / PC Depends on current user 
+const messageValue = 'Our message';  
+
+const publishRequest = {
+    objectApiName: 'PubSubMessage__e',
     fields: [{
             key: 'Source__c',
-            value: this.userAlias
+            value: userAlias
         },
         {
             key: 'Message__c',
-            value: this.messageValue
+            value: messageValue
         },
         {
             key: 'UUID__c',
@@ -52,6 +55,8 @@
         }
     ]
 }
+
+
 ```
 
 - Subscribe and Parse Response 
