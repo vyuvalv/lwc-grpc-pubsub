@@ -27,11 +27,6 @@ export default class ChatBoard extends LightningElement {
         this._user = value;
     }
 
-
-    set user(value) {
-        this._user = value;
-    }
-
     @api
     get posts() {
         return this._posts;
